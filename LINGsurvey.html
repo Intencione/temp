@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Sentence Judgment Survey – LING 410</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #FAF8F5;
+    --card: #FFFFFF;
+    --text: #2C2420;
+    --muted: #8A7E76;
+    --accent: #3D6B5E;
+    --accent-light: #E8F0EC;
+    --border: #E5E0DA;
+    --red-light: #FFF0EE;
+    --red: #C4544A;
+    --green-light: #EEFAF3;
+    --green: #3D6B5E;
+    --radius: 12px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  header .tag {
+    display: inline-block;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 16px;
+  }
+
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  header p {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+
+  .card h2 {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  /* Background Section */
+  .bg-question {
+    margin-bottom: 20px;
+  }
+
+  .bg-question label {
+    display: block;
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  .radio-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .radio-group label {
+    flex: 1;
+    min-width: 140px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+
+  .radio-group label:hover {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .radio-group input[type="radio"] {
+    accent-color: var(--accent);
+    width: 16px;
+    height: 16px;
+  }
+
+  .radio-group input[type="radio"]:checked + span {
+    color: var(--accent);
+  }
+
+  input[type="text"], select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    background: var(--bg);
+    transition: border-color 0.15s;
+  }
+
+  input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  /* Sentence Judgment */
+  .sentence-item {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sentence-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .sentence-item:first-of-type {
+    padding-top: 0;
+  }
+
+  .sentence-num {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .sentence-text {
+    font-size: 17px;
+    font-weight: 500;
+    font-style: italic;
+    margin-bottom: 14px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .judgment-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .judgment-buttons button {
+    flex: 1;
+    padding: 10px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--card);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .judgment-buttons button:hover {
+    border-color: var(--muted);
+  }
+
+  .judgment-buttons button.selected-ok {
+    background: var(--green-light);
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  .judgment-buttons button.selected-not {
+    background: var(--red-light);
+    border-color: var(--red);
+    color: var(--red);
+  }
+
+  /* Note box */
+  .note {
+    background: #FFF9EB;
+    border: 1px solid #F0DFA8;
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #7A6320;
+    margin-bottom: 20px;
+  }
+
+  .note strong {
+    color: #5C4A14;
+  }
+
+  /* Submit */
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 10px;
+  }
+
+  .submit-btn:hover {
+    background: #2F5549;
+  }
+
+  .submit-btn:disabled {
+    background: var(--border);
+    color: var(--muted);
+    cursor: not-allowed;
+  }
+
+  /* Thank you */
+  .thank-you {
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .thank-you .check {
+    width: 64px;
+    height: 64px;
+    background: var(--green-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 28px;
+  }
+
+  .thank-you h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+
+  .thank-you p {
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  /* Results box (for researcher) */
+  .results-box {
+    margin-top: 24px;
+    background: var(--bg);
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 18px;
+  }
+
+  .results-box h3 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .results-box pre {
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+    color: var(--text);
+  }
+
+  .copy-btn {
+    margin-top: 12px;
+    padding: 10px 20px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .copy-btn:hover { background: #2F5549; }
+
+  .progress {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .progress .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background 0.2s;
+  }
+
+  .progress .dot.filled {
+    background: var(--accent);
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<div class="container" id="app">
+  <header>
+    <div class="tag">LING 410 · Research Survey</div>
+    <h1>English Sentence Judgment</h1>
+    <p>This is a short survey for a linguistics class. It should take about 2 minutes. There are no right or wrong answers — just go with your gut feeling!</p>
+  </header>
+
+  <!-- SECTION 1: Background -->
+  <div id="section-bg" class="card">
+    <h2>About You</h2>
+
+    <div class="bg-question">
+      <label>What is your language background?</label>
+      <div class="radio-group">
+        <label>
+          <input type="radio" name="group" value="native">
+          <span>I grew up speaking only English</span>
+        </label>
+        <label>
+          <input type="radio" name="group" value="L2">
+          <span>English is not my first / only language</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="bg-question" id="l1-question" style="display:none;">
+      <label>What is your first language (L1)?</label>
+      <input type="text" id="l1-input" placeholder="e.g. Mandarin, Spanish, Korean...">
+    </div>
+
+    <div class="bg-question" id="proficiency-question" style="display:none;">
+      <label>How would you rate your English proficiency?</label>
+      <div class="radio-group">
+        <label><input type="radio" name="proficiency" value="beginner"><span>Beginner</span></label>
+        <label><input type="radio" name="proficiency" value="intermediate"><span>Intermediate</span></label>
+        <label><input type="radio" name="proficiency" value="advanced"><span>Advanced</span></label>
+        <label><input type="radio" name="proficiency" value="near-native"><span>Near-native</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: Sentences -->
+  <div id="section-sentences" class="card">
+    <h2>Sentence Judgments</h2>
+
+    <div class="note">
+      <strong>Note:</strong> The word <em>"wanna"</em> is a common spoken contraction of <em>"want to"</em>. It is perfectly normal in everyday English — this is <strong>not</strong> about "good" vs. "bad" English. Simply judge whether each sentence <strong>sounds like something an English speaker would actually say</strong> in real life.
+    </div>
+
+    <div class="progress" id="progress">
+      <div class="dot" data-i="0"></div>
+      <div class="dot" data-i="1"></div>
+      <div class="dot" data-i="2"></div>
+      <div class="dot" data-i="3"></div>
+      <div class="dot" data-i="4"></div>
+      <div class="dot" data-i="5"></div>
+    </div>
+
+    <div id="sentences-list"></div>
+  </div>
+
+  <!-- Submit -->
+  <button class="submit-btn" id="submit-btn" disabled onclick="submitSurvey()">Submit My Responses</button>
+
+  <!-- Thank You (hidden) -->
+  <div id="thank-you" class="card" style="display:none;">
+    <div class="thank-you">
+      <div class="check">✓</div>
+      <h2>Thank you!</h2>
+      <p>Your responses have been recorded. I really appreciate your help with my linguistics homework!</p>
+
+      <div class="results-box" id="results-box">
+        <h3>Response Data (for researcher)</h3>
+        <pre id="results-text"></pre>
+        <button class="copy-btn" onclick="copyResults()">Copy to Clipboard</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>LING 410 · Second Language Acquisition · Survey</footer>
+</div>
+
+<script>
+const sentences = [
+  { id: 1, text: "Who do you wanna invite to the party?" },
+  { id: 2, text: "What do you wanna make for the picnic?" },
+  { id: 3, text: "Who do you wanna call Mary on the phone?" },
+  { id: 4, text: "What do you wanna call Mary if she asks for a nickname?" },
+  { id: 5, text: "Who do you wanna fire the employee?" },
+  { id: 6, text: "What do you wanna buy from this list?" },
+];
+
+const judgments = {};
+const list = document.getElementById('sentences-list');
+sentences.forEach((s, i) => {
+  const div = document.createElement('div');
+  div.className = 'sentence-item';
+  div.innerHTML = `
+    <div class="sentence-num">Sentence ${s.id} of 6</div>
+    <div class="sentence-text">"${s.text}"</div>
+    <div class="judgment-buttons">
+      <button onclick="judge(${s.id}, 'ok', this)" data-sid="${s.id}" data-val="ok">👍 Sounds OK</button>
+      <button onclick="judge(${s.id}, 'not_ok', this)" data-sid="${s.id}" data-val="not_ok">👎 Doesn't sound OK</button>
+    </div>
+  `;
+  list.appendChild(div);
+});
+
+// Show L1 question for L2 speakers
+document.querySelectorAll('input[name="group"]').forEach(r => {
+  r.addEventListener('change', () => {
+    const isL2 = r.value === 'L2' && r.checked;
+    document.getElementById('l1-question').style.display = isL2 ? 'block' : 'none';
+    document.getElementById('proficiency-question').style.display = isL2 ? 'block' : 'none';
+    checkReady();
+  });
+});
+
+function judge(sid, val, btn) {
+  judgments[sid] = val;
+  // Update button styles
+  const btns = btn.parentElement.querySelectorAll('button');
+  btns.forEach(b => {
+    b.classList.remove('selected-ok', 'selected-not');
+  });
+  if (val === 'ok') btn.classList.add('selected-ok');
+  else btn.classList.add('selected-not');
+
+  // Update progress
+  const dots = document.querySelectorAll('.progress .dot');
+  dots[sid - 1].classList.add('filled');
+
+  checkReady();
+}
+
+function checkReady() {
+  const groupSelected = document.querySelector('input[name="group"]:checked');
+  const allJudged = Object.keys(judgments).length === 6;
+
+  let bgReady = false;
+  if (groupSelected) {
+    if (groupSelected.value === 'native') {
+      bgReady = true;
+    } else {
+      const l1 = document.getElementById('l1-input').value.trim();
+      const prof = document.querySelector('input[name="proficiency"]:checked');
+      bgReady = l1.length > 0 && prof;
+    }
+  }
+
+  document.getElementById('submit-btn').disabled = !(bgReady && allJudged);
+}
+
+// Listen for L1 input changes
+document.getElementById('l1-input').addEventListener('input', checkReady);
+document.querySelectorAll('input[name="proficiency"]').forEach(r => r.addEventListener('change', checkReady));
+
+function submitSurvey() {
+  const group = document.querySelector('input[name="group"]:checked').value;
+  const l1 = group === 'L2' ? document.getElementById('l1-input').value.trim() : 'English';
+  const prof = group === 'L2' ? document.querySelector('input[name="proficiency"]:checked').value : 'native';
+
+  const data = {
+    group: group === 'native' ? 'Native English' : 'L2 Learner',
+    l1: l1,
+    proficiency: prof,
+    s1: judgments[1],
+    s2: judgments[2],
+    s3: judgments[3],
+    s4: judgments[4],
+    s5: judgments[5],
+    s6: judgments[6],
+  };
+
+  // Format results
+  const lines = [
+    `Group: ${data.group}`,
+    `L1: ${data.l1}`,
+    `Proficiency: ${data.proficiency}`,
+    `---`,
+    `S1 "Who do you wanna invite to the party?" → ${data.s1 === 'ok' ? '✓ OK' : '✗ Not OK'}`,
+    `S2 "What do you wanna make for the picnic?" → ${data.s2 === 'ok' ? '✓ OK' : '✗ Not OK'}`,
+    `S3 "Who do you wanna call Mary on the phone?" → ${data.s3 === 'ok' ? '✓ OK' : '✗ Not OK'}`,
+    `S4 "What do you wanna call Mary if she asks for a nickname?" → ${data.s4 === 'ok' ? '✓ OK' : '✗ Not OK'}`,
+    `S5 "Who do you wanna fire the employee?" → ${data.s5 === 'ok' ? '✓ OK' : '✗ Not OK'}`,
+    `S6 "What do you wanna buy from this list?" → ${data.s6 === 'ok' ? '✓ OK' : '✗ Not OK'}`,
+  ];
+
+  document.getElementById('results-text').textContent = lines.join('\n');
+
+  // Hide form, show thank you
+  document.getElementById('section-bg').style.display = 'none';
+  document.getElementById('section-sentences').style.display = 'none';
+  document.getElementById('submit-btn').style.display = 'none';
+  document.getElementById('thank-you').style.display = 'block';
+}
+
+function copyResults() {
+  const text = document.getElementById('results-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy to Clipboard', 2000);
+  });
+}
+</script>
+
+</body>
+</html>
